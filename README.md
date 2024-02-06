@@ -1,7 +1,7 @@
 # Modelos-EDA-ML-NLP
 ## Análisis Exploratorio de Datos y Modelos Predictivos para Noticias Salvadoreñas
 
-##Descripción del Proyecto
+## Descripción del Proyecto
 Bienvenido al repositorio del proyecto de recopilación y análisis de noticias salvadoreñas. Este proyecto tiene como objetivo centralizar datos provenientes de un diario salvadoreño para realizar un exhaustivo Análisis Exploratorio de Datos (EDA). La recopilación de noticias se lleva a cabo de manera periódica, permitiendo la observación de patrones, tendencias y comportamientos a lo largo del tiempo.
 
 ## Funcionalidades Destacadas
