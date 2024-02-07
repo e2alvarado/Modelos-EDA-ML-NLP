@@ -114,7 +114,8 @@ nltk.download('stopwords')
 stop_words = set(stopwords.words('spanish'))  # Puedes cambiar 'spanish' por el idioma que necesites
 
 # Palabras adicionales a eliminar
-additional_stopwords = ['portada', 'dos', 'ser', 'año', 'keywords', 'ser', 'ver', 'tema', 'puede', 'foto:', 'años', 'nuevo', 'tras', 'solo', 'Foto:', 'hacer', 'mejor', 'San', 'san', 'sido', 'así', 'cada']
+additional_stopwords = ['portada', 'dos', 'ser', 'año', 'keywords', 'ser', 'ver', 'tema', 'puede', 'foto:', 'años', 'nuevo', 'tras', 'solo', 'Foto:', 'hacer', 'mejor', 'San', 'san', 'sido', 'así', 'cada',
+                        'comentarios', 'hace', 'foto', 'dijo', 'cuenta', 'país', 'tres',]
 
 # Agregar palabras adicionales a la lista de stopwords
 stop_words.update(additional_stopwords)

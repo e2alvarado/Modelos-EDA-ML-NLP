@@ -6,6 +6,8 @@ from sklearn.metrics import confusion_matrix, classification_report
 from sklearn.metrics import accuracy_score
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectKBest, chi2
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
 import pickle
 from datetime import datetime
 from wordcloud import WordCloud 
@@ -13,6 +15,12 @@ from textblob import TextBlob
 import plotly.express as px
 from collections import Counter
 from nltk.corpus import stopwords
+from fuzzywuzzy import fuzz
+import spacy
+import string
+from scipy.cluster.hierarchy import dendrogram, linkage
+from NLP_M1 import cargar_modelo, procesar_noticia_seleccionada
+
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
@@ -20,6 +28,10 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 fecha_actual = datetime.now().strftime('%d-%m-%Y')
 ruta_csv_scrape_diario = f'Noticias_{fecha_actual}.csv'
 df_noticias = pd.read_csv(ruta_csv_scrape_diario)
+
+# Cargar el modelo de spaCy
+modelo_spacy = cargar_modelo()
+
 
 # Cargar las variables necesarias para el modelo de Machine Learning
 with open('variables_modelo.pkl', 'rb') as f:
@@ -54,7 +66,7 @@ st.write(
 )
 
 # Barra lateral para seleccionar la página
-pagina_seleccionada = st.sidebar.selectbox("Seleccionar Página", ["Análisis Exploratorio de Datos (EDA)", "Modelo SVM"])
+pagina_seleccionada = st.sidebar.selectbox("Seleccionar Página", ["Análisis Exploratorio de Datos (EDA)", "Modelo SVM", "Modelos NLP"])
 
 # Página 1: Análisis Exploratorio de Datos (EDA)
 if pagina_seleccionada == "Análisis Exploratorio de Datos (EDA)":
@@ -166,7 +178,7 @@ elif pagina_seleccionada == "Modelo SVM":
     unique_values_df = pd.DataFrame({
         'Categoría': pd.concat([y_test, pd.Series(y_pred)]).unique(),
         'Efectividad': f'{accuracy:.2%}'
-})
+        })
 
     # Depuración: Mostrar los valores únicos en y_test e y_pred en tres columnas con gráfica
     st.subheader('Valores de Efectividad Por Categorías')
@@ -235,6 +247,57 @@ elif pagina_seleccionada == "Modelo SVM":
         st.subheader('Predicción para la Noticia Ingresada')
         st.write(f'Predicción: {prediccion_noticia}')
 
+# Página 3: Modelos NLP
+elif pagina_seleccionada == "Modelos NLP":
+
+    # Obtener las categorías disponibles
+    categorias_disponibles = df_noticias['Categoría'].unique()
+
+    # Obtener la entrada del usuario para seleccionar una categoría específica
+    categoria_seleccionada = st.selectbox("Seleccione la categoría que desea analizar:", categorias_disponibles)
+
+    # Filtrar las noticias por la categoría seleccionada
+    noticias_categoria_seleccionada = df_noticias[df_noticias['Categoría'] == categoria_seleccionada]
+
+    # Mostrar las noticias disponibles en la categoría seleccionada en forma de lista
+    st.write(f"\nNoticias disponibles para la categoría '{categoria_seleccionada}':")
+    if not noticias_categoria_seleccionada.empty:
+        noticias_lista = noticias_categoria_seleccionada['Título'].tolist()
+        seleccion_noticia = st.selectbox("Seleccione una noticia para analizar:", noticias_lista)
+        indice_noticia = noticias_lista.index(seleccion_noticia)
+    else:
+        st.write("No hay noticias disponibles para esta categoría.")
+
+    # Llamar a la función para generar la gráfica con la noticia específica
+    titulo_noticia, frecuencia_entidades = procesar_noticia_seleccionada(noticias_categoria_seleccionada, indice_noticia, modelo_spacy)
+
+    # Mostrar información en Streamlit
+    st.write(f'\nNoticia: {titulo_noticia}')
+    st.bar_chart(frecuencia_entidades)
+
+    # Sección para ingresar texto personalizado
+    st.header("Pon a prueba el modelo para Analizar Texto Personalizado")
+    st.write('Puede buscar cualquier noticia de la página de El Salvador: https://www.elsalvador.com/')
+    texto_personalizado = st.text_area("Ingrese el texto de la noticia:")
+    if st.button("Analizar Texto"):
+        if texto_personalizado:
+        # Procesar el texto ingresado por el usuario
+            doc_personalizado = modelo_spacy(texto_personalizado)
+        
+        # Obtener las entidades nombradas del texto
+            entidades_personalizado = [ent.label_ for ent in doc_personalizado.ents]
+
+        # Contar la frecuencia de cada tipo de entidad
+            frecuencia_entidades_personalizado = {ent: entidades_personalizado.count(ent) for ent in set(entidades_personalizado)}
+
+        # Mostrar la gráfica con la frecuencia de entidades del texto personalizado
+            st.write("Entidades Nombradas en el Texto Personalizado:")
+            st.bar_chart(frecuencia_entidades_personalizado)
+        else:
+            st.warning("Por favor, ingrese un texto antes de analizar.")
+
 # Ejecutar la aplicación
 if __name__ == '__main__':
-    st.write('¡Gracias por visitar mi streamlit, para más información de los códigos de los modelos visita mi repositorio de github: https://github.com/e2alvarado/Modelos-EDA-ML-NLP/tree/main')
+    st.write('¡Gracias por visitar mi streamlit!, para más información de los códigos de los modelos visita mi repositorio de github: https://github.com/e2alvarado/Modelos-EDA-ML-NLP')
+    st.write('En el enlace porporcionado podrás descargar los archivos e instalar toda la paquetería necesaria para ejecutarlo.')
+    
