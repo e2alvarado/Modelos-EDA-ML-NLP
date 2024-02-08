@@ -1,9 +1,12 @@
 attr==0.3.2
+altair>=5.2.0
+annotated-types>=0.6.0
+ansi2html>=1.9.1
 beautifulsoup4==4.12.3
 ConfigParser==6.0.0
 contextlib2==21.6.0
 cryptography==42.0.2
-Cython==0.29.24
+Cython>=0.29.24,<0.30.0
 dl==0.1.0
 docutils==0.20.1
 filelock==3.13.1
