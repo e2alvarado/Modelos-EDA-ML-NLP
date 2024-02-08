@@ -3,6 +3,10 @@ import seaborn as sns
 from datetime import datetime
 from wordcloud import WordCloud 
 from textblob import TextBlob 
+import matplotlib.pyplot as plt
+from collections import Counter
+import nltk
+from nltk.corpus import stopwords
 
 
 # Obtener la fecha actual
@@ -17,8 +21,6 @@ df_noticias = pd.read_csv(ruta_csv_scrape_diario)
 
 
 
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 # Frecuencia de noticias por categoría
 plt.figure(figsize=(10, 6))
@@ -28,8 +30,6 @@ plt.xlabel('Categoría')
 plt.ylabel('Cantidad de Noticias')
 plt.xticks(rotation=90)
 plt.show()
-
-
 
 
 
@@ -99,13 +99,6 @@ plt.show()
 
 
 
-from collections import Counter
-from wordcloud import WordCloud
-import matplotlib.pyplot as plt
-import nltk
-from nltk.corpus import stopwords
-import seaborn as sns
-import pandas as pd
 
 # Descargar stopwords de NLTK
 nltk.download('stopwords')
@@ -178,7 +171,6 @@ print(polaridad_promedio)
 
 
 
-from textblob import TextBlob
 
 # Supongamos que 'Contenido' es la columna que contiene el texto de las noticias en tu DataFrame df_noticias
 

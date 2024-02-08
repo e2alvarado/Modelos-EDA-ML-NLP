@@ -23,6 +23,14 @@ from NLP_M1 import cargar_modelo, procesar_noticia_seleccionada
 import pip
 pip.main(["install", "openpyxl"])
 
+import nltk
+
+# Descargar recursos de NLTK (si no se han descargado previamente)
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Cargar datos
