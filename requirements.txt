@@ -3,7 +3,7 @@ beautifulsoup4==4.12.3
 ConfigParser==6.0.0
 contextlib2==21.6.0
 cryptography==42.0.2
-Cython==3.0.8
+Cython==0.29.24
 dl==0.1.0
 docutils==0.20.1
 filelock==3.13.1
@@ -24,6 +24,8 @@ Pillow==10.2.0
 plotly==5.18.0
 protobuf==4.25.2
 pyOpenSSL==24.0.0
+ywin32==306
+pywhatkit>=5.4
 railroad==0.5.0
 redis==5.0.1
 scikit_learn==1.4.0
