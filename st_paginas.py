@@ -272,9 +272,15 @@ elif pagina_seleccionada == "Modelos NLP":
     # Llamar a la función para generar la gráfica con la noticia específica
     titulo_noticia, frecuencia_entidades = procesar_noticia_seleccionada(noticias_categoria_seleccionada, indice_noticia, modelo_spacy)
 
+    # Convertir el diccionario de frecuencia_entidades a dos listas (una para las etiquetas y otra para los valores)
+    etiquetas = list(frecuencia_entidades.keys())
+    valores = list(frecuencia_entidades.values())
+
     # Mostrar información en Streamlit
     st.write(f'\nNoticia: {titulo_noticia}')
-    st.bar_chart(frecuencia_entidades)
+
+    # Utilizar st.plotly_chart para mostrar el gráfico de barras
+    st.plotly_chart(px.bar(x=etiquetas, y=valores, labels={'x': 'Entidades', 'y': 'Frecuencia'}))
 
     # Sección para ingresar texto personalizado
     st.header("Pon a prueba el modelo para Analizar Texto Personalizado")
@@ -282,18 +288,19 @@ elif pagina_seleccionada == "Modelos NLP":
     texto_personalizado = st.text_area("Ingrese el texto de la noticia:")
     if st.button("Analizar Texto"):
         if texto_personalizado:
-        # Procesar el texto ingresado por el usuario
+            # Procesar el texto ingresado por el usuario
             doc_personalizado = modelo_spacy(texto_personalizado)
-        
-        # Obtener las entidades nombradas del texto
+
+            # Obtener las entidades nombradas del texto
             entidades_personalizado = [ent.label_ for ent in doc_personalizado.ents]
 
-        # Contar la frecuencia de cada tipo de entidad
+            # Contar la frecuencia de cada tipo de entidad
             frecuencia_entidades_personalizado = {ent: entidades_personalizado.count(ent) for ent in set(entidades_personalizado)}
 
-        # Mostrar la gráfica con la frecuencia de entidades del texto personalizado
+            # Mostrar la gráfica con la frecuencia de entidades del texto personalizado
             st.write("Entidades Nombradas en el Texto Personalizado:")
-            st.bar_chart(frecuencia_entidades_personalizado)
+            fig_personalizado = px.bar(frecuencia_entidades_personalizado, x=list(frecuencia_entidades_personalizado.keys()), y=list(frecuencia_entidades_personalizado.values()), labels={'x': 'Entidades', 'y': 'Frecuencia'})
+            st.plotly_chart(fig_personalizado)
         else:
             st.warning("Por favor, ingrese un texto antes de analizar.")
 
