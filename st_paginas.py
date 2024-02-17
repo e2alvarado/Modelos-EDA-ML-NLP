@@ -21,6 +21,8 @@ import string
 from scipy.cluster.hierarchy import dendrogram, linkage
 from NLP_M1 import cargar_modelo, procesar_noticia_seleccionada
 import pip
+import nltk
+nltk.download('stopwords')
 pip.main(["install", "openpyxl"])
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
