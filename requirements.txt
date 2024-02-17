@@ -35,7 +35,7 @@ MarkupSafe==2.1.5
 matplotlib==3.8.2
 mdurl==0.1.2
 murmurhash==1.0.10
-nltk==3.8.1
+nltk==3.6.3
 numpy==1.26.4
 openpyxl==3.1.2
 packaging==23.2
@@ -68,7 +68,7 @@ spacy==3.7.3
 spacy-legacy==3.0.12
 spacy-loggers==1.0.5
 srsly==2.4.8
-streamlit==1.4.0
+streamlit==1.31.0
 tenacity==8.2.3
 textblob==0.17.1
 thinc==8.2.3
