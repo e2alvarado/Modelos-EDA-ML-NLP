@@ -26,8 +26,7 @@ pip.main(["install", "openpyxl"])
 st.set_option('deprecation.showPyplotGlobalUse', False)
 
 # Cargar datos
-fecha_actual = datetime.now().strftime('%d-%m-%Y')
-ruta_csv_scrape_diario = f'Noticias_{fecha_actual}.csv'
+ruta_csv_scrape_diario = 'Noticias_09-02-2024.csv'
 df_noticias = pd.read_csv(ruta_csv_scrape_diario)
 
 # Cargar el modelo de spaCy
